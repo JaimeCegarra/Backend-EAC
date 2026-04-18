@@ -18,7 +18,7 @@ class EnsureUserHasRole
     // El handle recibe la petición, el siguiente middleware y el nombre del rol a comprobar
     public function handle(Request $request, Closure $next, string $role): Response
     {
-        if (! $request->user()?->hasRole($role)) {
+        if (! $request->user()?->userRoles()->where('name', $role)->exists()) {
             abort(403, 'Acceso no autorizado para este rol.');
         }
 

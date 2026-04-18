@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 // app/Models/Modulo.php
@@ -27,5 +28,9 @@ class Modulo extends Model
     public function resultadosAprendizaje(): HasMany
     {
         return $this->hasMany(ResultadoAprendizaje::class);
+    }
+    public function matriculas(): HasMany
+    {
+        return $this->hasMany(Matricula::class);
     }
 }
