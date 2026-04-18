@@ -2,45 +2,29 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -49,15 +33,18 @@ class User extends Authenticatable
         ];
     }
 
+    public function userRoles(): HasMany
+    {
+        return $this->hasMany(UserRole::class, 'user_id');
+    }
 
-    public function userRoles(): BelongsToMany
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'user_roles')
                     ->withPivot('ecosistema_laboral_id')
                     ->withTimestamps();
     }
 
-    // Ecosistemas en los que está matriculado (como estudiante)
     public function matriculas(): HasMany
     {
         return $this->hasMany(Matricula::class, 'estudiante_id');
@@ -72,7 +59,6 @@ class User extends Authenticatable
         )->withTimestamps();
     }
 
-    // Perfiles de habilitación del estudiante
     public function perfilesHabilitacion(): HasMany
     {
         return $this->hasMany(PerfilHabilitacion::class, 'estudiante_id');
@@ -85,10 +71,18 @@ class User extends Authenticatable
                     ->first();
     }
 
-    // Método helper que consulta la relación roles y devuelve true/false
     public function hasRole(string $role): bool
     {
-        // Se usa la relación 'roles' definida en el modelo User
-        return $this->userRoles()->where('name', $role)->exists();
+        return $this->roles()->where('name', $role)->exists();
+    }
+}
+
+class UserRole extends Pivot
+{
+    protected $table = 'user_roles';
+
+    public function ecosistemaLaboral()
+    {
+        return $this->belongsTo(EcosistemaLaboral::class, 'ecosistema_laboral_id');
     }
 }
