@@ -51,4 +51,32 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/')->with('success', 'Has cerrado sesión correctamente.');
+})->name('logout');
+
+// 1. Ruta para VER el formulario de login
+Route::get('/login', function () {
+    return view('publico.login'); // Asegúrate de tener este archivo
+})->name('login')->middleware('guest');
+
+// 2. Ruta para PROCESAR el login
+Route::post('/login', function (Request $request) {
+    $credentials = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
+    ]);
+
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+
+        // Redirige al inicio (o donde tú quieras)
+        return redirect('/');
+    }
+
+    return back()->withErrors([
+        'email' => 'Las credenciales no coinciden con nuestros registros.',
+    ]);
+});
 //require __DIR__.'/auth.php';
