@@ -24,8 +24,8 @@ Route::middleware(['auth', 'role:estudiante'])
         Route::get('/dashboard',          Estudiante\DashboardController::class)->name('dashboard');
         Route::get('/perfil/{perfil}',    Estudiante\PerfilController::class)->name('perfil.show');
 
-        // ✨ ESTA ES LA ÚNICA LÍNEA QUE HEMOS AÑADIDO PARA ARREGLAR EL ERROR DEL PROFE ✨
-        Route::get('/modulos', function() { return "Mis módulos"; })->name('modulos.index');
+        Route::get('/modulos',         [Estudiante\ModuloController::class, 'index'])->name('modulos.index');
+       Route::get('/modulos/{modulo}', [Estudiante\ModuloController::class, 'show'])->name('modulo');
     });
 
 // ─── Rutas del docente ────────────────────────────────────────────────────────
@@ -48,5 +48,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 require __DIR__.'/auth.php';
