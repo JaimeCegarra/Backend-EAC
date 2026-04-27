@@ -29,6 +29,14 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
                 ->name('matriculas.store');
             Route::get('perfil/{ecosistema}/zdp', V1\Estudiante\ZdpController::class)
                 ->name('zdp');
+
+        Route::prefix('perfil/{ecosistema}')->group(function () {
+            Route::get('/',   [V1\Estudiante\PerfilController::class, 'show'])
+                ->name('perfil.show');
+            Route::get('huellas',  [V1\Estudiante\HuellaController::class, 'index']) ->name('huellas.index');
+            Route::get('huella',   [V1\Estudiante\HuellaController::class, 'show'])  ->name('huella.show');
+            Route::post('huella',  [V1\Estudiante\HuellaController::class, 'store']) ->name('huella.store');
+            });
         });
 
         // Docente
@@ -38,5 +46,8 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::post('ecosistemas/{ecosistema}/conquistas',
                 V1\Docente\ConquistaController::class)->name('conquistas');
         });
+        Route::get('ecosistemas/{ecosistema}/calificacion/{estudianteId}',
+                V1\Docente\CalificacionController::class
+            )->name('calificacion');
     });
 });
