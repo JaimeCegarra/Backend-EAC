@@ -45,7 +45,11 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
                 V1\Docente\ProgresoController::class)->name('progreso');
             Route::post('ecosistemas/{ecosistema}/conquistas',
                 V1\Docente\ConquistaController::class)->name('conquistas');
-        });
+            Route::get(
+                'ecosistemas/{ecosistema}/calificacion/{estudianteId}',
+                V1\Docente\CalificacionController::class
+            )->name('calificacion');
+            });
         Route::get('ecosistemas/{ecosistema}/calificacion/{estudianteId}',
                 V1\Docente\CalificacionController::class
             )->name('calificacion');
