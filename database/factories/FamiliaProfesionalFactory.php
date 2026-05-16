@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<EcosistemaLaboral>
  */
-class EcosistemaLaboralFactory extends Factory
+class FamiliaProfesionalFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,11 +18,9 @@ class EcosistemaLaboralFactory extends Factory
     public function definition(): array
     {
         return [
-            'modulo_id'   => \App\Models\Modulo::factory(),
-            'nombre'      => $this->faker->unique()->company(),
-            'codigo'      => 'ECOLAB' . $this->faker->unique()->numberBetween(1, 99),
+            'nombre'      => $this->faker->unique()->word(),
+            'codigo'      => 'FAMILIA' . $this->faker->unique()->numberBetween(1, 99),
             'descripcion' => $this->faker->sentence(),
-            'activo'      => true,
         ];
     }
 }
