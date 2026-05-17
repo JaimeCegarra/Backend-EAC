@@ -8,6 +8,7 @@ use App\Services\GrafoService;
 use App\Services\RecomendacionService;
 use App\Services\CalificacionService;
 use App\Services\HuellaService;
+use App\Services\EACAnalyticsService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(RecomendacionService::class, function ($app) {
             return new RecomendacionService($app->make(GrafoService::class));
         });
+
+        $this->app->singleton(EACAnalyticsService::class, function ($app) {
+        return new EACAnalyticsService(
+            $app->make(CalificacionService::class)
+        );
+    });
     }
 
     /**

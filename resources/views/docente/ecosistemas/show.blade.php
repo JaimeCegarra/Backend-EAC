@@ -23,6 +23,11 @@
                     · {{ $ecosistema->modulo->cicloFormativo->nombre }}
                     · {{ $ecosistema->modulo->codigo }}
                 </p>
+                {{-- dentro de la cabecera del ecosistema --}}
+                <a href="{{ route('docente.ecosistemas.analytics', $ecosistema) }}"
+                class="btn btn-outline-primary btn-sm">
+                    📊 Ver analítica
+                </a>
             </div>
             <div class="flex gap-6 text-center">
                 <div>
