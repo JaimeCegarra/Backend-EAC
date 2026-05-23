@@ -10,6 +10,11 @@
         <a href="{{ route('estudiante.dashboard') }}" class="hover:text-gray-700">Mi espacio</a>
         <span class="mx-2">›</span>
         <span class="text-gray-900">{{ $modulo->nombre }}</span>
+        {{-- dentro del panel de progreso del estudiante --}}
+        <a href="{{ route('estudiante.huella-radar', $perfil->ecosistemaLaboral) }}"
+        class="btn btn-outline-indigo btn-sm">
+            🎯 Ver mi Huella de Talento
+        </a>
     </nav>
 
     {{-- Cabecera del módulo --}}
