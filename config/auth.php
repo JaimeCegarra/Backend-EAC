@@ -71,6 +71,18 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+
+         // Guard anterior con Sanctum (mantener para desarrollo local sin Connector)
+        'sanctum' => [
+            'driver'   => 'sanctum',
+            'provider' => 'users',
+        ],
+
+        // Nuevo guard para producción con el FIWARE Dataspace Connector
+        'verifier' => [
+            'driver'   => 'verifier',
+            'provider' => 'users',
+        ],
     ],
 
     /*
